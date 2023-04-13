@@ -11,7 +11,7 @@ class Card:
     
     def get_color(self): return self.color
     
-    def to_string(self): return str(self.value) + self.color
+    def to_string(self): return str(self.value.value) + str(self.color.value)
     
     def card_list_gen():
-        return [Card(card_value=i_value, card_color=j_color) for ]
+        return [Card(card_value=i_value.name, card_color=j_color.name) for i_value in CardValue for j_color in CardColor]

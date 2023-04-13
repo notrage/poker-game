@@ -1,10 +1,12 @@
-class CardColor(enumerate):
+from enum import Enum
+
+class CardColor(Enum):
     DIAMOND = 'D'
     SPADE   = 'S'
     HEART   = 'H'
     CLUB    = 'C'
 
-class CardValue(enumerate):
+class CardValue(Enum):
     TWO   = 2  #'2'
     THREE = 3  #'3'
     FOUR  = 4  #'4'
