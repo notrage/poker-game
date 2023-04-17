@@ -1,4 +1,4 @@
-from enumerations import CardColor, CardValue
+from enumerations import CardValue, CardColor
 
 class Card:
     
@@ -11,7 +11,7 @@ class Card:
     
     def get_color(self): return self.color
     
-    def to_string(self): return str(self.value.value) + str(self.color.value)
+    def to_string(self): return self.value.to_string() + self.color.to_string()
     
     def card_list_gen():
-        return [Card(card_value=i_value.name, card_color=j_color.name) for i_value in CardValue for j_color in CardColor]
+        return [Card(card_value=v, card_color=c) for v in CardValue.to_list() for c in CardColor.to_list()]

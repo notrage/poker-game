@@ -1,12 +1,7 @@
 from enum import Enum
 
-class CardColor(Enum):
-    DIAMOND = 'D'
-    SPADE   = 'S'
-    HEART   = 'H'
-    CLUB    = 'C'
-
 class CardValue(Enum):
+    
     TWO   = 2  #'2'
     THREE = 3  #'3'
     FOUR  = 4  #'4'
@@ -20,3 +15,42 @@ class CardValue(Enum):
     QUEEN = 12 #'Q'
     KING  = 13 #'K'
     ACE   = 14 #'A'
+    
+    def to_string(self) -> str:
+        
+        match(self):
+            
+            case self.TWO:   return '2'
+            case self.THREE: return '3'
+            case self.FOUR:  return '4'
+            case self.FIVE:  return '5'
+            case self.SIX:   return '6'
+            case self.SEVEN: return '7'
+            case self.EIGHT: return '8'
+            case self.NINE:  return '9'
+            case self.TEN:   return '10'
+            case self.JOKEY: return 'J'
+            case self.QUEEN: return 'Q'
+            case self.KING:  return 'K'
+            case self.ACE:   return 'A'
+            
+    def to_list() -> list: return [CardValue.__members__[i.name] for i in CardValue]
+
+
+class CardColor(Enum):
+    
+    DIAMOND = 1 #'D'
+    SPADE   = 2 #'S'
+    HEART   = 3 #'H'
+    CLUB    = 4 #'C'
+    
+    def to_string(self) -> str:
+        
+        match (self):
+            
+            case self.DIAMOND: return 'D'
+            case self.SPADE:   return 'S'
+            case self.HEART:   return 'H'
+            case self.CLUB:    return 'C'
+    
+    def to_list() -> list: return [CardColor.__members__[i.name] for i in CardColor]
