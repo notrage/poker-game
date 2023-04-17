@@ -4,8 +4,8 @@ class Card:
     
     def __init__(self, card_value: CardValue, card_color: CardColor):
         
-        self.value = card_value
-        self.color = card_color
+        self.value: CardValue = card_value
+        self.color: CardColor = card_color
         
     def get_value(self) -> CardValue: 
         return self.value
