@@ -2,19 +2,19 @@ from enumerations import CardValue, CardColor
 
 class Card:
     
-    def __init__(self, card_value: CardValue, card_color: CardColor):
+    def __init__(self, card_value: CardValue, card_color: CardColor) -> None:
         
         self.value: CardValue = card_value
         self.color: CardColor = card_color
         
-    def get_value(self) -> CardValue: 
+    def __value__(self) -> CardValue: 
         return self.value
     
-    def get_color(self) -> CardColor: 
+    def __color__(self) -> CardColor: 
         return self.color
     
-    def to_string(self) -> str: 
-        return self.value.to_string() + self.color.to_string()
+    def __str__(self) -> str: 
+        return f"{self.value.__str__()}{self.color.__str__()}"
     
     def card_list_gen() -> list:
-        return [Card(card_value=v, card_color=c) for v in CardValue.to_list() for c in CardColor.to_list()]
+        return [Card(card_value=v, card_color=c) for v in CardValue.__list__() for c in CardColor.__list__()]
