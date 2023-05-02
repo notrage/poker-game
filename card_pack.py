@@ -24,3 +24,9 @@ class CardPack(Card):
     def __remove_card__(self, card: Card) -> None:
         
         self.card_list.remove(card)
+        
+    def __get_and_remove_random_card__(self) -> Card:
+        
+        a_card: Card = self.__get_random_card__()
+        self.__remove_card__(self, a_card)
+        #TODO
