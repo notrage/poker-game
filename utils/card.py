@@ -1,4 +1,4 @@
-from enumerations import CardValue, CardColor
+from utils.enumerations import CardValue, CardColor
 
 class Card:
     
