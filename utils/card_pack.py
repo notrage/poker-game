@@ -4,10 +4,10 @@ from utils.card import Card
 
 class CardPack(Card):
     
-    def __init__(self, card_pack_card_list: list) -> None:
+    def __init__(self, card_pack_card_list: list[Card]) -> None:
         self.card_list: list = card_pack_card_list
     
-    def __card_list__(self) -> list:
+    def __card_list__(self) -> list[Card]:
         return self.card_list
     
     def __str__(self) -> str:
@@ -28,7 +28,7 @@ class CardPack(Card):
         self.__remove_card__(a_card)
         return a_card
     
-    def get_and_remove_mulitple_random_cards(self, n: int) -> list:
+    def get_and_remove_mulitple_random_cards(self, n: int) -> list[Card]:
         """Give and remove n random cards from CardPack
 
         Args:
@@ -40,7 +40,7 @@ class CardPack(Card):
         if n > len(self.__card_list__()):
             print("Error: n variable to high for this CardPack"); exit()
         
-        cards: list =[]
+        cards: list[Card] = []
         for i in range(n):
             cards.append(self.__get_and_remove_random_card__())
         return cards
