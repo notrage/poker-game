@@ -7,8 +7,8 @@ class Community():
             print("Error: cannot create a community without exactly 8 cards")
             exit()
             
-        self.flop: list = community_card_list[1:4]
-        self.turn: Card = community_card_list[5]
+        self.flop:  list = community_card_list[1:4]
+        self.turn:  Card = community_card_list[5]
         self.river: Card = community_card_list[7]
     
     def __flop__(self) -> list[Card]:
@@ -36,7 +36,7 @@ class Community():
             case 0: return []
             case 1: return self.__flop__()
             case 2: return self.__flop__() + [self.__turn__()]
-            case 3: return self.__flop__() + [self.__turn__()] + [self.__river__()]
+            case 3: return self.__flop__() + [self.__turn__(), self.__river__()]
             case _: 
                 print("Error: current_phase must be an element of {0,1,2,3}")
                 exit()
