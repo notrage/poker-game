@@ -19,4 +19,6 @@ class Bet:
         return self.value
     
     def __str__(self) -> str:
-        return f"joueur: {self.__player__().__name__()}, mise: {self.__value__()}"
+        return f"""
+            joueur: {self.__player__().__name__()}
+            mise: {self.__value__()}"""

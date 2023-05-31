@@ -34,7 +34,8 @@ class CardValue(Enum):
             case self.KING:  return 'K'
             case self.ACE:   return 'A'
             
-    def __list__() -> list: return [CardValue.__members__[value.name] for value in CardValue]
+    def __list__() -> list: 
+        return [CardValue.__members__[value.name] for value in CardValue]
 
 
 class CardColor(Enum):
@@ -53,4 +54,5 @@ class CardColor(Enum):
             case self.HEART:   return 'H'
             case self.CLUB:    return 'C'
     
-    def __list__() -> list: return [CardColor.__members__[color.name] for color in CardColor]
+    def __list__() -> list: 
+        return [CardColor.__members__[color.name] for color in CardColor]

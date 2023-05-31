@@ -5,6 +5,7 @@ from utils.card import Card
 class CardPack(Card):
     
     def __init__(self, card_pack_card_list: list[Card]) -> None:
+        
         self.card_list: list = card_pack_card_list
     
     def __card_list__(self) -> list[Card]:

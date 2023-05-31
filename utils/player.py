@@ -18,4 +18,7 @@ class Player:
         return self.hand
     
     def __str__(self) -> str:
-        return f"nom: {self.__name__()}, argent: {self.__money__()},  main: {self.__hand__().__str__()}"
+        return f"""
+            nom: {self.__name__()}
+            argent: {self.__money__()}
+            main: {self.__hand__().__str__()}"""
