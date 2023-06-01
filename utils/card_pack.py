@@ -19,8 +19,7 @@ class CardPack(Card):
     
     def __remove_card__(self, card: Card) -> None:
         if self.__card_list__() == []: 
-            print("Error: cannot remove card from an empty CardPack")
-            exit()
+            print("Error: cannot remove card from an empty CardPack"); exit()
             
         self.card_list.remove(card)
         
