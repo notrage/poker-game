@@ -5,9 +5,29 @@ from utils.community import Community
 from utils.hand import Hand
 from utils.player import Player
 from utils.bet import Bet
+from utils.game import Game
 
 if __name__ == "__main__":
     
+    partie_de_poker: Game = Game()
+    
+    partie_de_poker.init_card_pack()
+    
+    partie_de_poker.init_community()
+    
+    joueur1: Player = Player("roger", 10000)
+    joueur2: Player = Player("Jaqueline", 7000)
+    
+    partie_de_poker.add_player(joueur1)
+    partie_de_poker.add_player(joueur2)
+    
+    print(partie_de_poker.__str__())
+    
+    partie_de_poker.generate_hands()
+    
+    print(partie_de_poker.__str__())    
+    
+    """
     paquet_de_carte: CardPack = CardPack(Card.card_list_gen())
     
     cartes_communes: Community = Community(paquet_de_carte.get_and_remove_mulitple_random_cards(8))
@@ -34,3 +54,4 @@ if __name__ == "__main__":
     print(f"Le joueur1 a les caractéristiques suivantes: {joueur1.__str__()}\n")
     
     print(f"La mise1 a les caractéristique suivantes: {mise1.__str__()}\n")
+    """

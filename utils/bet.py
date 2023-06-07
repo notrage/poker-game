@@ -20,5 +20,5 @@ class Bet:
     
     def __str__(self) -> str:
         return f"""
-            joueur: {self.__player__().__name__()}
-            mise: {self.__value__()}"""
+    joueur: {self.__player__().__name__()}
+    mise: {self.__value__()}"""
