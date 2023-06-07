@@ -2,16 +2,17 @@ from utils.card import Card
 
 class Hand():
     
-    def __init__(self, hand_card_list) -> None:
-        if len(hand_card_list) != 2:
-            print("Error: cannot create a hand of cards without exactly 2 cards")
-            exit()
-            
-        self.card_list = hand_card_list
+    def __init__(self, hand_cards: list[Card]) -> None:
         
-    def __card_list__(self) -> list[Card]:
-        return self.card_list
+        assert len(hand_cards) == 2, "Error: cannot create a hand of cards without exactly 2 cards"
+            
+        self.cards = hand_cards
+        
+    def __cards__(self) -> list[Card]:
+        
+        return self.cards
     
     def __str__(self) -> str:
-        return f"{[card.__str__() for card in self.__card_list__()]}"
+        
+        return f"{[card.__str__() for card in self.__cards__()]}"
     

@@ -8,12 +8,15 @@ class Player:
         self.money: int = player_money
         
     def __name__(self) -> str:
+        
         return self.name
     
     def __money__(self) -> int:
+        
         return self.money
     
     def __str__(self) -> str:
+        
         return f"""
     nom: {self.__name__()}
     argent: {self.__money__()}"""
