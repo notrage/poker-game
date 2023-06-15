@@ -129,3 +129,7 @@ class Game:
             
         self.hands = None
         self.bets = None
+        
+    def best_hand(self) -> list[Hand]:
+        
+        #TODO
