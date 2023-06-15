@@ -107,6 +107,25 @@ class Game:
             
         self.bets[bet_player] = bet_amount
         
-    def round_win(player_win_list: list[Player]) -> None:
-        
-        #TODO
+    def round_win(self, player_win_list: list[Player]) -> None:
+        """update players's money amount after a round
+
+        Args:
+            player_win_list (list[Player]): list of winning players
+        """
+        money_win: int = sum(self.__bets__().values()) / len(player_win_list)
+
+        for player in self.__players__():
+            
+            player.sub_money(self.__bets__()[player])
+            if player.__money__() <= 0:
+                
+                print(f"The player {player.__name__()} is out, his amount of money has decreased to 0")
+                self.players.remove(player)
+            
+        for player in player_win_list:
+            
+            player.add_money(money_win)
+            
+        self.hands = None
+        self.bets = None

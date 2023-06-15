@@ -20,3 +20,19 @@ class Player:
         return f"""
     nom: {self.__name__()}
     argent: {self.__money__()}"""
+    
+    def add_money(self, amount: int) -> None:
+        """add an amount of money to player's current money
+
+        Args:
+            amount (int): money to add
+        """
+        self.money += amount
+        
+    def sub_money(self, amount: int) -> None:
+        """substract an amount of money to player's current money
+
+        Args:
+            amount (int): money to substract
+        """
+        self.money -= amount
