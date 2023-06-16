@@ -1,5 +1,6 @@
-from utils.enumerations.card_value import CardValue
+from utils.enumerations.card_value import CardValue 
 from utils.enumerations.card_color import CardColor
+from utils.enumerations.community_stage import CommunityStage
 from utils.card import Card
 from utils.card_pack import CardPack
 from utils.community import Community
@@ -12,6 +13,7 @@ class Game:
         
         self.card_pack: CardPack = None
         self.community: Community = None
+        self.community_stage: CommunityStage = None
         self.players: list[Player] = None
         self.hands: dict = None
         self.bets: dict = None
@@ -23,6 +25,10 @@ class Game:
     def __community__(self) -> Community:
         
         return self.community
+    
+    def __community_stage__(self) -> CommunityStage:
+        
+        return self.community_stage
     
     def __players__(self) -> list[Player]:
         
@@ -39,21 +45,23 @@ class Game:
     def __str__(self) -> str:
         
         # Put the right format for every Game's attribute
-        card_pack = self.__card_pack__().__str__() if self.__card_pack__() != None else None
-        community = self.__community__().__str__() if self.__community__() != None else None
-        players = [player.__name__() for player in self.__players__()] if self.__players__() != None else None
-        hands = {player.__name__(): hand.__str__() for (player, hand) in self.__hands__().items()} if self.__hands__() != None else None
-        bets = {player.__name__(): value for (player, value) in self.__bets__().items()} if self.__bets__() != None else None
+        card_pack = self.__card_pack__().__str__() if self.__card_pack__() else None
+        community = self.__community__().__str__() if self.__community__() else None
+        community_stage = self.__community_stage__().__str__() if self.__community_stage__() else None
+        players = [player.__name__() for player in self.__players__()] if self.__players__() else None
+        hands = {player.__name__(): hand.__str__() for (player, hand) in self.__hands__().items()} if self.__hands__() else None
+        bets = {player.__name__(): value for (player, value) in self.__bets__().items()} if self.__bets__() else None
         
         return f"""
     paquet de cartes: {card_pack}
     cartes communes: {community}
+    étape dans le round: {community_stage}
     joueurs: {players}
     mains: {hands}
     mises: {bets}"""
         
     def init_card_pack(self) -> None:
-        """generate/reset the Game's card_pack
+        """generate the Game's card_pack
         """
         
         self.card_pack: CardPack = CardPack()
@@ -68,6 +76,18 @@ class Game:
         community_cards: Community = self.__card_pack__().get_and_remove_random_cards(8)
         
         self.community = Community(community_cards)
+        
+    def init_community_stage(self) -> None:
+        """initialize/reset Game's community_stage
+        """
+
+        self.community_stage: CommunityStage = CommunityStage.EMPTY
+        
+    def update_community_stage(self) -> None:
+        """upgrade the current Game's community_stage
+        """
+        
+        self.community_stage: CommunityStage = self.__community_stage__().next_community_stage()
         
     def add_player(self, a_game_player: Player) -> None:
         """add a player to the Game
@@ -133,3 +153,4 @@ class Game:
     def best_hand(self) -> list[Hand]:
         
         #TODO
+        return

@@ -13,6 +13,7 @@ if __name__ == "__main__":
     
     partie.init_card_pack()
     partie.init_community()
+    partie.init_community_stage()
     
     joueur1 = Player("roger", 10000)
     joueur2 = Player("jacques", 7000)
@@ -30,11 +31,16 @@ if __name__ == "__main__":
     
     print(partie.__str__())
     
+    partie.update_community_stage()
+    
     partie.round_win([joueur1])
     
-    print(joueur1.__str__())
-    print(joueur2.__str__())
-    print(joueur3.__str__())
+    #print(joueur1.__str__())
+    #print(joueur2.__str__())
+    #print(joueur3.__str__())
+    
+    #print(partie.__str__())
+    #partie.update_community_stage()
     
     print(partie.__str__())
     
