@@ -44,3 +44,4 @@ if __name__ == "__main__":
     
     print(partie.__str__())
     
+    partie.highest_combination(joueur1)

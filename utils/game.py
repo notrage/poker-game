@@ -44,7 +44,7 @@ class Game:
     
     def __str__(self) -> str:
         
-        # Put the right format for every Game's attribute
+        # put the right format for every Game's attribute
         card_pack = self.__card_pack__().__str__() if self.__card_pack__() else None
         community = self.__community__().__str__() if self.__community__() else None
         community_stage = self.__community_stage__().__str__() if self.__community_stage__() else None
@@ -72,8 +72,8 @@ class Game:
         
         assert self.__card_pack__(), "Error, cannot generate the Game's community if the Game's card_pack isn't initialized"
         
-        # Get the cards for the community
-        community_cards: Community = self.__card_pack__().get_and_remove_random_cards(8)
+        # get the cards for the community
+        community_cards = self.__card_pack__().get_and_remove_random_cards(8)
         
         self.community = Community(community_cards)
         
@@ -81,7 +81,7 @@ class Game:
         """initialize/reset Game's community_stage
         """
 
-        self.community_stage: CommunityStage = CommunityStage.EMPTY
+        self.community_stage = CommunityStage.EMPTY
         
     def update_community_stage(self) -> None:
         """upgrade the current Game's community_stage
@@ -96,7 +96,7 @@ class Game:
             a_game_player (Player): a player to join the Game
         """
         
-        # Check if a player is already in the game
+        # check if a player is already in the game
         if self.__players__() == None:
             self.players = [a_game_player]
         else:
@@ -110,10 +110,10 @@ class Game:
         assert self.__card_pack__(), "Error, cannot generate the Game's hands if the Game's card_pack isn't initialized"
         
         # Initialize player and hand list
-        player_list: list[Player] = self.__players__()
+        player_list = self.__players__()
         hand_list: list[Hand] = [Hand(self.__card_pack__().get_and_remove_random_cards(2)) for i in range (len(player_list))]
         
-        self.hands: dict = {player: hand for (player, hand) in zip(player_list, hand_list)}
+        self.hands = {player: hand for (player, hand) in zip(player_list, hand_list)}
         
     def add_bet(self, bet_player: Player, bet_amount: int) -> None:
         """initialize bets for a given Game's players
@@ -123,7 +123,7 @@ class Game:
         
         # Check if the bets dictionnary is already initialized
         if not self.__bets__():
-            self.bets: dict = {player: None for player in self.__players__()}
+            self.bets = {player: None for player in self.__players__()}
             
         self.bets[bet_player] = bet_amount
         
@@ -133,6 +133,7 @@ class Game:
         Args:
             player_win_list (list[Player]): list of winning players
         """
+        
         money_win: int = sum(self.__bets__().values()) / len(player_win_list)
 
         for player in self.__players__():
@@ -146,11 +147,29 @@ class Game:
         for player in player_win_list:
             
             player.add_money(money_win)
-            
+        
         self.hands = None
         self.bets = None
+        self.init_community()
+        self.init_community_stage()
+        self.init_card_pack()
+
+    def highest_combination(self, player: Player):
+        """give the highest player cards combination he can make
+
+        Args:
+            player (Player): a Game's player
+        """
         
+        #TODO
+        return
+    
     def best_hand(self) -> list[Hand]:
+        """give the best(s) Game's hand(s)
+
+        Returns:
+            list[Hand]: the best(s) Game's hand(s)
+        """
         
         #TODO
         return
