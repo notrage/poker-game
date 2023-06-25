@@ -1,5 +1,3 @@
-from utils.hand import Hand
-
 class Player:
     
     def __init__(self, player_name: str, player_money: int) -> None:
@@ -17,9 +15,7 @@ class Player:
     
     def __str__(self) -> str:
         
-        return f"""
-    nom: {self.__name__()}
-    argent: {self.__money__()}"""
+        return f"Player's name: {self.__name__()}\Player's money: {self.__money__()}\n"
     
     def add_money(self, amount: int) -> None:
         """add an amount of money to player's current money
@@ -27,6 +23,7 @@ class Player:
         Args:
             amount (int): money to add
         """
+        
         self.money += amount
         
     def sub_money(self, amount: int) -> None:
@@ -35,4 +32,5 @@ class Player:
         Args:
             amount (int): money to substract
         """
+        
         self.money -= amount

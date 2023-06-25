@@ -3,8 +3,8 @@ from enum import Enum
 class CommunityStage(Enum):
     
     EMPTY = 0
-    FLOP = 1
-    TURN = 2
+    FLOP  = 1
+    TURN  = 2
     RIVER = 3
     
     def __str__(self) -> str:

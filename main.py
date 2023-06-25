@@ -1,11 +1,7 @@
-from utils.enumerations.card_value import CardValue
-from utils.enumerations.card_color import CardColor
-from utils.card import Card
-from utils.card_pack import CardPack
-from utils.community import Community
-from utils.hand import Hand
-from utils.player import Player
 from utils.game import Game
+from utils.player import Player
+
+from utils.combination import Combination
 
 if __name__ == "__main__":
     
@@ -44,4 +40,12 @@ if __name__ == "__main__":
     
     print(partie.__str__())
     
-    partie.highest_combination(joueur1)
+    partie.generate_hands()
+    partie.update_community_stage()
+    partie.update_community_stage()
+    
+    combinaison1: Combination = partie.__player_combination__(joueur1)
+    
+    print(combinaison1.__str__())
+    print(combinaison1.__order_by_value_str__())
+    print(combinaison1.__order_by_color_str__())

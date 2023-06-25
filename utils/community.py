@@ -1,3 +1,4 @@
+from utils.enumerations.community_stage import CommunityStage
 from utils.card import Card
 
 class Community():
@@ -24,26 +25,25 @@ class Community():
     
     def __str__(self) -> str:
         
-        return f"{[card.__str__() for card in self.__flop__() + [self.__turn__(), self.__river__()]]}"
+        return f"Community: {[card.__str__() for card in self.__flop__() + [self.__turn__(), self.__river__()]]}"
     
-    def get_phase_comminity_cards(self, phase: int) -> list[Card]:
+    def get_stage_commnunity_cards(self, stage: CommunityStage) -> list[Card]:
         """give community cards that corresponds to current phase
 
         Args:
-            current_phase (int): a number in {0,1,2,3}
+            stage (CommunityStage): the current community stage
 
         Returns:
             list: current phase community card list
         """
         
-        assert phase in {0, 1, 2, 3}, "Error: current_phase must be an element of {0,1,2,3}"
-        
-        match (phase):
-            case 0: return []
-            case 1: return self.__flop__()
-            case 2: return self.__flop__() + [self.__turn__()]
-            case 3: return self.__flop__() + [self.__turn__(), self.__river__()]
+        match (stage):
             
-    def __phase_comminity_cards_str__(self, phase: int) -> str:
+            case CommunityStage.EMPTY: return []
+            case CommunityStage.FLOP:  return self.__flop__()
+            case CommunityStage.TURN:  return self.__flop__() + [self.__turn__()]
+            case CommunityStage.RIVER: return self.__flop__() + [self.__turn__(), self.__river__()]
+            
+    def __get_stage_commnunity_cards_str__(self, stage: int) -> str:
         
-        return f"{[card.__str__() for card in self.get_phase_comminity_cards(phase)]}"
+        return f"Community stage cards: {[card.__str__() for card in self.get_stage_commnunity_cards(stage)]}"

@@ -1,9 +1,11 @@
-from utils.enumerations.card_value import CardValue 
+from utils.enumerations.card_value  import CardValue 
 from utils.enumerations.card_color import CardColor
 from utils.enumerations.community_stage import CommunityStage
+from utils.enumerations.poker_hand import PokerHand
 from utils.card import Card
 from utils.card_pack import CardPack
 from utils.community import Community
+from utils.combination import Combination
 from utils.hand import Hand
 from utils.player import Player
 
@@ -11,12 +13,12 @@ class Game:
     
     def __init__(self) -> None:
         
-        self.card_pack: CardPack = None
-        self.community: Community = None
+        self.card_pack: CardPack             = None
+        self.community: Community            = None
         self.community_stage: CommunityStage = None
-        self.players: list[Player] = None
-        self.hands: dict = None
-        self.bets: dict = None
+        self.players: list[Player]           = None
+        self.hands: dict                     = None
+        self.bets: dict                      = None
         
     def __card_pack__(self) -> CardPack:
         
@@ -44,27 +46,21 @@ class Game:
     
     def __str__(self) -> str:
         
-        # put the right format for every Game's attribute
-        card_pack = self.__card_pack__().__str__() if self.__card_pack__() else None
-        community = self.__community__().__str__() if self.__community__() else None
-        community_stage = self.__community_stage__().__str__() if self.__community_stage__() else None
-        players = [player.__name__() for player in self.__players__()] if self.__players__() else None
-        hands = {player.__name__(): hand.__str__() for (player, hand) in self.__hands__().items()} if self.__hands__() else None
-        bets = {player.__name__(): value for (player, value) in self.__bets__().items()} if self.__bets__() else None
+        # Put the right format for every Game's attribute
+        card_pack_to_str: list[str] = self.__card_pack__().__str__() if self.__card_pack__() else None
+        community_to_str: str       = self.__community__().__str__() if self.__community__() else None
+        community_stage_to_str: str = self.__community_stage__().__str__() if self.__community_stage__() else None
+        players_to_str: list[str]   = [player.__name__() for player in self.__players__()] if self.__players__() else None
+        hands_to_str: dict          = {player.__name__(): hand.__str__() for (player, hand) in self.__hands__().items()} if self.__hands__() else None
+        bets_to_str: dict           = {player.__name__(): value for (player, value) in self.__bets__().items()} if self.__bets__() else None
         
-        return f"""
-    paquet de cartes: {card_pack}
-    cartes communes: {community}
-    étape dans le round: {community_stage}
-    joueurs: {players}
-    mains: {hands}
-    mises: {bets}"""
+        return f"Game's card pack: {card_pack_to_str}\nGame's community cards: {community_to_str}\nGame's community stage: {community_stage_to_str}\nGame's players: {players_to_str}\nGame's player's hands: {hands_to_str}\nGame's player's bets: {bets_to_str}\n"
         
     def init_card_pack(self) -> None:
         """generate the Game's card_pack
         """
         
-        self.card_pack: CardPack = CardPack()
+        self.card_pack = CardPack()
         
     def init_community(self) -> None:
         """generate the Game's community
@@ -72,8 +68,8 @@ class Game:
         
         assert self.__card_pack__(), "Error, cannot generate the Game's community if the Game's card_pack isn't initialized"
         
-        # get the cards for the community
-        community_cards = self.__card_pack__().get_and_remove_random_cards(8)
+        # Get the cards for the community
+        community_cards: list[Card] = self.__card_pack__().get_and_remove_random_cards(8)
         
         self.community = Community(community_cards)
         
@@ -87,7 +83,7 @@ class Game:
         """upgrade the current Game's community_stage
         """
         
-        self.community_stage: CommunityStage = self.__community_stage__().next_community_stage()
+        self.community_stage = self.__community_stage__().next_community_stage()
         
     def add_player(self, a_game_player: Player) -> None:
         """add a player to the Game
@@ -97,7 +93,7 @@ class Game:
         """
         
         # check if a player is already in the game
-        if self.__players__() == None:
+        if not self.__players__():
             self.players = [a_game_player]
         else:
             assert len(self.__players__()) < 10, "Error: cannot have more than 10 players in a Game"
@@ -110,7 +106,7 @@ class Game:
         assert self.__card_pack__(), "Error, cannot generate the Game's hands if the Game's card_pack isn't initialized"
         
         # Initialize player and hand list
-        player_list = self.__players__()
+        player_list: list[Player] = self.__players__()
         hand_list: list[Hand] = [Hand(self.__card_pack__().get_and_remove_random_cards(2)) for i in range (len(player_list))]
         
         self.hands = {player: hand for (player, hand) in zip(player_list, hand_list)}
@@ -153,6 +149,23 @@ class Game:
         self.init_community()
         self.init_community_stage()
         self.init_card_pack()
+
+    def __player_combination__(self, player: Player) -> Combination:
+        """give Game's player's card combination
+
+        Args:
+            player (Player): a Game's player
+
+        Returns:
+            _type_: Game's player's card combination
+        """
+        
+        assert self.__hands__(), "Error, cannot get Game's player's combination if hands isn't initialized"
+        
+        # Get current's community cards
+        current_community_cards: list[Card] = self.__community__().get_stage_commnunity_cards(self.__community_stage__())
+        
+        return Combination(self.__hands__()[player], current_community_cards)
 
     def highest_combination(self, player: Player):
         """give the highest player cards combination he can make

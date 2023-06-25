@@ -14,7 +14,7 @@ class CardPack(Card):
     
     def __str__(self) -> str:
         
-        return f"{[card.__str__() for card in self.card_list]}"
+        return f"CardPack: {[card.__str__() for card in self.__card_list__()]}"
     
     def __get_random_card__(self) -> Card:
         
@@ -23,6 +23,7 @@ class CardPack(Card):
     def __remove_card__(self, card: Card) -> None:
         
         assert self.__card_list__() != [], "Error: cannot remove card from an empty CardPack"
+        
         self.card_list.remove(card)
         
     def __get_and_remove_random_card__(self) -> Card:

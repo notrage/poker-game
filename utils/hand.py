@@ -14,5 +14,5 @@ class Hand():
     
     def __str__(self) -> str:
         
-        return f"{[card.__str__() for card in self.__cards__()]}"
+        return f"Hand: {[card.__str__() for card in self.__cards__()]}"
     
