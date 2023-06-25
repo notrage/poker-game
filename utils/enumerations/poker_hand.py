@@ -27,3 +27,7 @@ class PokerHand(Enum):
             case self.FOUR_OF_KIND: return "four of kind"
             case self.STRAIGHT_FLUSH: return "straight flush"
             case self.ROYAL_FLUSH: return "royal flush"
+    
+    def __list__(self) -> list:
+        
+        return [PokerHand.__members__[poker_hand.name] for poker_hand in PokerHand]

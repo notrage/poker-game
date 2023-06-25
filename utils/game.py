@@ -45,7 +45,6 @@ class Game:
         return self.bets
     
     def __str__(self) -> str:
-        
         # Put the right format for every Game's attribute
         card_pack_to_str: list[str] = self.__card_pack__().__str__() if self.__card_pack__() else None
         community_to_str: str       = self.__community__().__str__() if self.__community__() else None
@@ -67,7 +66,6 @@ class Game:
         """
         
         assert self.__card_pack__(), "Error, cannot generate the Game's community if the Game's card_pack isn't initialized"
-        
         # Get the cards for the community
         community_cards: list[Card] = self.__card_pack__().get_and_remove_random_cards(8)
         
@@ -91,7 +89,6 @@ class Game:
         Args:
             a_game_player (Player): a player to join the Game
         """
-        
         # check if a player is already in the game
         if not self.__players__():
             self.players = [a_game_player]
@@ -104,7 +101,6 @@ class Game:
         """
 
         assert self.__card_pack__(), "Error, cannot generate the Game's hands if the Game's card_pack isn't initialized"
-        
         # Initialize player and hand list
         player_list: list[Player] = self.__players__()
         hand_list: list[Hand] = [Hand(self.__card_pack__().get_and_remove_random_cards(2)) for i in range (len(player_list))]
@@ -146,9 +142,9 @@ class Game:
         
         self.hands = None
         self.bets = None
+        self.init_card_pack()
         self.init_community()
         self.init_community_stage()
-        self.init_card_pack()
 
     def __player_combination__(self, player: Player) -> Combination:
         """give Game's player's card combination
@@ -161,13 +157,12 @@ class Game:
         """
         
         assert self.__hands__(), "Error, cannot get Game's player's combination if hands isn't initialized"
-        
         # Get current's community cards
         current_community_cards: list[Card] = self.__community__().get_stage_commnunity_cards(self.__community_stage__())
         
         return Combination(self.__hands__()[player], current_community_cards)
 
-    def highest_combination(self, player: Player):
+    def __highest_combination__(self, player: Player):
         """give the highest player cards combination he can make
 
         Args:
@@ -177,7 +172,7 @@ class Game:
         #TODO
         return
     
-    def best_hand(self) -> list[Hand]:
+    def __best_hand__(self) -> list[Hand]:
         """give the best(s) Game's hand(s)
 
         Returns:
