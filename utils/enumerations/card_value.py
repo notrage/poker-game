@@ -2,6 +2,7 @@ from enum import Enum
 
 class CardValue(Enum):
     
+    #ONE   = 1
     TWO   = 2
     THREE = 3
     FOUR  = 4
@@ -20,6 +21,7 @@ class CardValue(Enum):
         
         match(self):
             
+            #case self.ONE:   return '1'
             case self.TWO:   return '2'
             case self.THREE: return '3'
             case self.FOUR:  return '4'

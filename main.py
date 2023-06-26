@@ -3,6 +3,9 @@ from utils.player import Player
 
 from utils.hand import Hand
 from utils.combination import Combination
+from utils.card import Card as C
+from utils.enumerations.card_color import CardColor as CC
+from utils.enumerations.card_value import CardValue as CV
 
 if __name__ == "__main__":
     
@@ -41,22 +44,26 @@ if __name__ == "__main__":
         #print(joueur3.__str__())
         
         #print(partie.__str__())
-        #partie.update_community_stage()
+        partie.update_community_stage()
+        partie.update_community_stage()
+        partie.update_community_stage()
         
         #print(partie.__str__())
         
         partie.generate_hands()
-        partie.update_community_stage()
-        partie.update_community_stage()
-        partie.update_community_stage()
         
         combinaison1: Combination = partie.__player_combination__(joueur1)
+        combinaison2: Combination = Combination(Hand([C(CV.THREE, CC.CLUB), C(CV.ACE, CC.CLUB)]), [C(CV.TWO, CC.CLUB), C(CV.FOUR, CC.CLUB), C(CV.FIVE, CC.CLUB), C(CV.ACE, CC.DIAMOND), C(CV.EIGHT, CC.CLUB)])
         
-        print(combinaison1.__str__())
-        print(combinaison1.__group_by_value_str__())
+        cartes = combinaison2.__cards__()
+        print(combinaison2.__str__())
+        print(combinaison2.__is_straight_flush__())
+        
+        #print(combinaison1.__str__())
+        #print(combinaison1.__group_by_value_str__())
         #print(combinaison1.__group_by_color_str__())
         
-        if combinaison1.__is_straight__(): 
-            found = True
-            print(combinaison1.__str__())
-        print(combinaison1.__is_straight__())
+        #if combinaison1.__is_straight__(): 
+        found = True
+        #    print(combinaison1.__str__())
+        #print(combinaison1.__is_straight__())
