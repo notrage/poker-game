@@ -67,9 +67,9 @@ class Game:
         
         assert self.__card_pack__(), "Error, cannot generate the Game's community if the Game's card_pack isn't initialized"
         # Get the cards for the community
-        community_cards: list[Card] = self.__card_pack__().get_and_remove_random_cards(8)
+        community_card_list: list[Card] = self.__card_pack__().get_and_remove_random_cards(8)
         
-        self.community = Community(community_cards)
+        self.community = Community(community_card_list)
         
     def init_community_stage(self) -> None:
         """initialize/reset Game's community_stage
@@ -157,27 +157,43 @@ class Game:
         """
         
         assert self.__hands__(), "Error, cannot get Game's player's combination if hands isn't initialized"
+        assert player in self.__players__(), "Error, cannot get a player combination he isn't in the Game"
         # Get current's community cards
-        current_community_cards: list[Card] = self.__community__().get_stage_commnunity_cards(self.__community_stage__())
+        current_community_card_list: list[Card] = self.__community__().get_stage_commnunity_cards(self.__community_stage__())
         
-        return Combination(self.__hands__()[player], current_community_cards)
+        return Combination(self.__hands__()[player], current_community_card_list)
 
-    def __best_hand__(self, player1: Player, player2: Player) -> list[Hand]:
-        """give the best(s) Game's hand(s)
+    def __best_combination__(self) -> list[Combination]:
+        """Give the current best Game's combination(s) 
 
         Returns:
-            list[Hand]: the best(s) Game's hand(s)
+            list[Combination]: the current best Game's combination(s)
         """
         
-        #TODO
-        return
-    
-    def __highest_combination__(self, player: Player):
-        """give the highest player cards combination he can make
+        current_best_combination_list: list[Combination] = []
+        
+        player_list: list[Player] = self.__players__()
+        combination_list: list[Combination] = [self.__player_combination__(player) for player in player_list]
 
-        Args:
-            player (Player): a Game's player
-        """
+        for combination in combination_list:
+            # It's the start of the iteration
+            if current_best_combination_list == []: current_best_combination_list = [combination]
+            else:
+                combination_value: int = combination.__poker_hand__().value
+                current_best_combination_value: int = current_best_combination_list[0].__poker_hand__().value
+                # The combination value is greater than the current combination_list
+                if combination_value > current_best_combination_value: current_best_combination_list = [combination]
+                # The combination value is the same than the current combination_list
+                elif combination_value == current_best_combination_value: current_best_combination_list.append(combination)
+            
+        return current_best_combination_list
+    
+    def __separate_combinations_of_the_same_values__(self) -> Combination:
+        
+        best_combination_list: list[Combination] = self.__best_combination__()
+        
+        if len(best_combination_list) == 1: return best_combination_list[0]
         
         #TODO
+        
         return

@@ -48,9 +48,11 @@ if __name__ == "__main__":
     
     partie.generate_hands()
     
-    combinaison1: Combination = partie.__player_combination__(joueur1)
-    
-    print(combinaison1.__str__())
+    #combinaison1: Combination = partie.__player_combination__(joueur1)
+    #print(combinaison1.__str__())
     #print(combinaison1.__group_by_value_str__())
     #print(combinaison1.__group_by_color_str__())
-    print(combinaison1.__poker_hand__().__str__())
+    #print(combinaison1.__poker_hand__().__str__())
+    meilleur_combinaison_liste = partie.__best_combination__()
+    print([combinaison.__str__() for combinaison in meilleur_combinaison_liste])
+    print([combinaison.__poker_hand__().__str__() for combinaison in meilleur_combinaison_liste])
