@@ -128,11 +128,10 @@ class Combination():
         if len(self.__cards__()) >= 5:
             
             # Check if we are in one of first straight case (with ACE as ONE)
-            #TODO c'est pas au point du tout
-            if (all(card in self.__cards__() for card in [Card(CardValue.ACE, CardColor.CLUB), Card(CardValue.TWO, CardColor.CLUB), Card(CardValue.THREE, CardColor.CLUB), Card(CardValue.FOUR, CardColor.CLUB), Card(CardValue.FIVE, CardColor.CLUB)]) or
-                all(card in self.__cards__() for card in [Card(CardValue.ACE, CardColor.DIAMOND), Card(CardValue.TWO, CardColor.DIAMOND), Card(CardValue.THREE, CardColor.DIAMOND), Card(CardValue.FOUR, CardColor.DIAMOND), Card(CardValue.FIVE, CardColor.DIAMOND)]) or
-                all(card in self.__cards__() for card in [Card(CardValue.ACE, CardColor.HEART), Card(CardValue.TWO, CardColor.HEART), Card(CardValue.THREE, CardColor.HEART), Card(CardValue.FOUR, CardColor.HEART), Card(CardValue.FIVE, CardColor.HEART)]) or
-                all(card in self.__cards__() for card in [Card(CardValue.ACE, CardColor.SPADE), Card(CardValue.TWO, CardColor.SPADE), Card(CardValue.THREE, CardColor.SPADE), Card(CardValue.FOUR, CardColor.SPADE), Card(CardValue.FIVE, CardColor.SPADE)]) ):
+            if ( all(card in self.__str__() for card in ["AC", "2C", "3C", "4C", "5C"]) or
+                 all(card in self.__str__() for card in ["AD", "2D", "3D", "4D", "5D"]) or
+                 all(card in self.__str__() for card in ["AH", "2H", "3H", "4H", "5H"]) or
+                 all(card in self.__str__() for card in ["AS", "2S", "3S", "4S", "5S"]) ):
                 return True
             
             self.__sort_by_value__()
@@ -160,5 +159,26 @@ class Combination():
     
     def __is_royal_flush__(self) -> bool:
         
-        #TODO
-        return
+        # Check if we are in one of first straight case (with ACE as ONE)
+        if ( all(card in self.__str__() for card in ["AC", "KC", "QC", "JC", "10C"]) or
+             all(card in self.__str__() for card in ["AD", "KD", "QD", "JD", "10D"]) or
+             all(card in self.__str__() for card in ["AH", "KH", "QH", "JH", "10H"]) or
+             all(card in self.__str__() for card in ["AS", "KS", "QS", "JS", "10S"]) ):
+            return True
+            
+        return False
+    
+    def __poker_hand__(self) -> PokerHand:
+        
+        if self.__is_royal_flush__():    return PokerHand.ROYAL_FLUSH
+        if self.__is_straight_flush__(): return PokerHand.STRAIGHT_FLUSH
+        if self.__is_four_of_kind__():   return PokerHand.FOUR_OF_KIND
+        if self.__is_full_house__():     return PokerHand.FULL_HOUSE
+        if self.__is_flush__():          return PokerHand.FLUSH
+        if self.__is_straight__():       return PokerHand.STRAIGHT
+        if self.__is_three_of_kind__():  return PokerHand.THREE_OF_KIND
+        if self.__is_two_pair__():       return PokerHand.TWO_PAIR
+        if self.__is_pair__():           return PokerHand.PAIR
+        
+        return PokerHand.HIGH_CARD
+    

@@ -162,21 +162,21 @@ class Game:
         
         return Combination(self.__hands__()[player], current_community_cards)
 
-    def __highest_combination__(self, player: Player):
-        """give the highest player cards combination he can make
+    def __best_hand__(self, player1: Player, player2: Player) -> list[Hand]:
+        """give the best(s) Game's hand(s)
 
-        Args:
-            player (Player): a Game's player
+        Returns:
+            list[Hand]: the best(s) Game's hand(s)
         """
         
         #TODO
         return
     
-    def __best_hand__(self) -> list[Hand]:
-        """give the best(s) Game's hand(s)
+    def __highest_combination__(self, player: Player):
+        """give the highest player cards combination he can make
 
-        Returns:
-            list[Hand]: the best(s) Game's hand(s)
+        Args:
+            player (Player): a Game's player
         """
         
         #TODO

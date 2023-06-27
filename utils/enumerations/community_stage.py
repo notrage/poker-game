@@ -11,10 +11,10 @@ class CommunityStage(Enum):
         
         match(self):
             
-            case self.EMPTY: return "empty"
-            case self.FLOP: return "flop"
-            case self.TURN: return "turn"
-            case self.RIVER: return "river"
+            case self.EMPTY: return "EMPTY"
+            case self.FLOP:  return "FLOP"
+            case self.TURN:  return "TURN"
+            case self.RIVER: return "RIVER"
             
     def next_community_stage(self):
         
@@ -23,5 +23,5 @@ class CommunityStage(Enum):
         match(self):
             
             case self.EMPTY: return self.FLOP
-            case self.FLOP: return self.TURN
-            case self.TURN: return self.RIVER
+            case self.FLOP:  return self.TURN
+            case self.TURN:  return self.RIVER

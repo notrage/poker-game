@@ -17,13 +17,13 @@ class PokerHand(Enum):
         
         match(self):
             
-            case self.HIGH_CARD: return "high card"
-            case self.PAIR: return "pair"
-            case self.TWO_PAIR: return "two pair"
-            case self.THREE_OF_KIND: return "three of kind"
-            case self.STRAIGHT: return "straight"
-            case self.FLUSH: return "flush"
-            case self.FULL_HOUSE: return "full house"
-            case self.FOUR_OF_KIND: return "four of kind"
-            case self.STRAIGHT_FLUSH: return "straight flush"
-            case self.ROYAL_FLUSH: return "royal flush"
+            case self.HIGH_CARD:      return "HICH CARD"
+            case self.PAIR:           return "PAIR"
+            case self.TWO_PAIR:       return "TWO PAIR"
+            case self.THREE_OF_KIND:  return "THREE OF KIND"
+            case self.STRAIGHT:       return "STRAIGHT"
+            case self.FLUSH:          return "FLUSH"
+            case self.FULL_HOUSE:     return "FULL HOUSE"
+            case self.FOUR_OF_KIND:   return "FOUR OF KIND"
+            case self.STRAIGHT_FLUSH: return "STRAIGHT FLUSH"
+            case self.ROYAL_FLUSH:    return "ROYAL FLUSH"
