@@ -161,7 +161,7 @@ class Game:
         # Get current's community cards
         current_community_card_list: list[Card] = self.__community__().get_stage_commnunity_cards(self.__community_stage__())
         
-        return Combination(self.__hands__()[player], current_community_card_list)
+        return Combination(self.__hands__()[player], self.__community__(), self.__community_stage__())
 
     def __best_combination__(self) -> list[Combination]:
         """Give the current best Game's combination(s) 
@@ -188,12 +188,12 @@ class Game:
             
         return current_best_combination_list
     
-    def __separate_combinations_of_the_same_values__(self) -> Combination:
+    def __separate_combinations_of_the_same_values__(self) -> list[Combination]:
         
         best_combination_list: list[Combination] = self.__best_combination__()
         
-        if len(best_combination_list) == 1: return best_combination_list[0]
+        if len(best_combination_list) == 1: return best_combination_list
         
-        #TODO
+        #TODO comparer les mains et sortir la plus élevé (car ici on est dans le cas ouù c'est la valeur de la main du joueur qui va trancher)
         
         return

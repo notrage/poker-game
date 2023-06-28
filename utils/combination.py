@@ -1,22 +1,33 @@
+from utils.enumerations.community_stage import CommunityStage
 from utils.enumerations.card_value import CardValue
 from utils.enumerations.card_color import CardColor
 from utils.enumerations.poker_hand import PokerHand
 from utils.hand import Hand
 from utils.card import Card
+from utils.community import Community
 
 class Combination():
     
-    def __init__(self, combination_hand: Hand, combination_community_cards: list[Card]) -> None:
+    def __init__(self, combination_hand: Hand, combination_comuunity: Community, combination_community_stage: CommunityStage) -> None:
         
-        hand_cards: list[Card] = combination_hand.__cards__()
+        self.hand_card_list: list[Card] = combination_hand.__cards__()
+        self.community_card_list: list[Card] = combination_comuunity.get_stage_commnunity_cards(combination_community_stage)
         
-        assert len(hand_cards + combination_community_cards) in {2, 5, 6, 7}, "Error, number of Combination's cards must be an element of {2, 5, 6, 7}"
+        assert len(self.hand_card_list + self.community_card_list) in {2, 5, 6, 7}, "Error, number of Combination's cards must be an element of {2, 5, 6, 7}"
         
-        self.cards : list[Card] = hand_cards + combination_community_cards
+        self.card_list : list[Card] = self.hand_card_list + self.community_card_list
+        
+    def __hand_card_list__(self) -> list[Card]:
+        
+        return self.hand_card_list
+    
+    def __community_card_list__(self) -> list[Card]:
+        
+        return self.community_card_list
         
     def __cards__(self) -> list[Card]:
         
-        return self.cards
+        return self.card_list
     
     def __str__(self) -> str:
         
@@ -45,7 +56,7 @@ class Combination():
     def __sort_by_value__(self) -> None:
         
         # Sort the Combination's cards by ascending order
-        self.cards.sort(key = lambda card: card.__value__().value, reverse = True)
+        self.card_list.sort(key = lambda card: card.__value__().value, reverse = True)
             
     def __is_pair__(self) -> bool:
         # Check if a value has an occurrence of 2
@@ -181,4 +192,6 @@ class Combination():
         if self.__is_pair__():           return PokerHand.PAIR
         
         return PokerHand.HIGH_CARD
+    
+    
     
