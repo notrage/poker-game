@@ -41,7 +41,7 @@ class Combination():
     def __group_by_value_str__(self) -> str:
         
         value_dict_to_str: dict = {value.__str__(): count for (value,count) in self.__group_by_value__().items()}
-        return f"Comination ordered by value: {value_dict_to_str}"
+        return f"Combination ordered by value: {value_dict_to_str}"
     
     def __group_by_color__(self) -> dict:
         
@@ -57,7 +57,12 @@ class Combination():
         
         # Sort the Combination's cards by ascending order
         self.card_list.sort(key = lambda card: card.__value__().value, reverse = True)
-            
+    
+    def __remove_all_occurence__(self, list: list, element) -> None:
+        
+        # Removing all occurence of "item" in "list"
+        return [e for e in list if e != element]
+    
     def __is_pair__(self) -> bool:
         # Check if a value has an occurrence of 2
         for count in self.__group_by_value__().values():
@@ -193,5 +198,80 @@ class Combination():
         
         return PokerHand.HIGH_CARD
     
-    
+    def __value_to_compares__(self) -> list[CardValue]:
+
+        self.__sort_by_value__()
+        card_value_list: list[CardValue] = [card.__value__() for card in self.__cards__()]
+
+        match (self.__poker_hand__()):
+        
+            case PokerHand.HIGH_CARD: return card_value_list[0:5]
+            
+            case PokerHand.PAIR: 
+                
+                value_dict: dict = self.__group_by_value__()
+                # Getting the pair CardValue's
+                pair_card_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 2]
+                # Getting out the pair from CardValue's list                
+                card_value_list = self.__remove_all_occurence__(card_value_list, pair_card_value_list[0])
+                
+                return pair_card_value_list + card_value_list[0:3]
+                
+            case PokerHand.TWO_PAIR: 
+                
+                value_dict: dict = self.__group_by_value__()
+                # Getting the pairs CardValue's
+                pair_card_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 2]
+                # Getting out the pairs from CardValue's list
+                for pair_card_value in pair_card_value_list:
+                    
+                    card_value_list = self.__remove_all_occurence__(card_value_list, pair_card_value)
+                        
+                return pair_card_value_list + [card_value_list[0]]
+                    
+            case PokerHand.THREE_OF_KIND: 
+                
+                value_dict: dict = self.__group_by_value__()
+                # Getting the three of kind CardValue's
+                three_of_kind_card_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 3]
+                # Getting out the three of kind from CardValue's list
+                card_value_list = self.__remove_all_occurence__(card_value_list, three_of_kind_card_value_list[0])
+                                
+                return three_of_kind_card_value_list + card_value_list[0:2]
+                
+            case PokerHand.STRAIGHT: 
+                #TODO renvoyer la plus grand cardValue de la straight
+                return 
+            
+            case PokerHand.FLUSH: 
+                #TODO renvoyer la plus grand cardValue de la flush
+                return 
+            
+            case PokerHand.FULL_HOUSE: 
+                
+                value_dict: dict = self.__group_by_value__()
+                # Getting the three of kind CardValue's
+                full_house_card_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 3]
+                # Getting the pair CardValue's
+                full_house_card_value_list += [value for value, count in value_dict.items() if count == 2]
+                
+                return full_house_card_value_list
+            
+            case PokerHand.FOUR_OF_KIND: 
+                
+                value_dict: dict = self.__group_by_value__()
+                # Getting the four of kind CardValue's
+                four_of_kind_card_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 4]
+                # Getting out the four of kind from CardValue's list
+                card_value_list = self.__remove_all_occurence__(card_value_list, four_of_kind_card_value_list[0])
+                
+                return four_of_kind_card_value_list + [card_value_list[0]]
+                
+            case PokerHand.STRAIGHT_FLUSH: 
+                #TODO renvoyer la plus grand cardValue de la straight flush
+                return
+            
+            case PokerHand.ROYAL_FLUSH: 
+                #TODO renvoyer la plus grand cardValue de la royal flush
+                return 
     

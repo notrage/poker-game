@@ -186,14 +186,11 @@ class Game:
                 # The combination value is the same than the current combination_list
                 elif combination_value == current_best_combination_value: current_best_combination_list.append(combination)
             
-        return current_best_combination_list
-    
-    def __separate_combinations_of_the_same_values__(self) -> list[Combination]:
+        #if len(current_best_combination_list) == 1: return current_best_combination_list
         
-        best_combination_list: list[Combination] = self.__best_combination__()
+        #TODO comparer les mains et sortir la plus élevé (car ici on est dans le cas où c'est la valeur de la main du joueur qui va trancher)
         
-        if len(best_combination_list) == 1: return best_combination_list
-        
-        #TODO comparer les mains et sortir la plus élevé (car ici on est dans le cas ouù c'est la valeur de la main du joueur qui va trancher)
-        
-        return
+        #debug
+        combination_value_dict: dict = {combination.__str__(): combination.__value_to_compares__() for combination in current_best_combination_list}        
+        print(combination_value_dict)
+        return current_best_combination_list            
