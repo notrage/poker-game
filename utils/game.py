@@ -190,7 +190,8 @@ class Game:
         
         #TODO comparer les mains et sortir la plus élevé (car ici on est dans le cas où c'est la valeur de la main du joueur qui va trancher)
         
-        #debug
         combination_value_dict: dict = {combination.__str__(): combination.__value_to_compares__() for combination in current_best_combination_list}        
+        
+        #debug
         print(combination_value_dict)
         return current_best_combination_list            

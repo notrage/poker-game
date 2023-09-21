@@ -239,7 +239,8 @@ class Combination():
                                 
                 return three_of_kind_card_value_list + card_value_list[0:2]
                 
-            case PokerHand.STRAIGHT: 
+            case PokerHand.STRAIGHT:
+                
                 #TODO renvoyer la plus grand cardValue de la straight
                 return 
             
