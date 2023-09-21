@@ -61,4 +61,4 @@ if __name__ == "__main__":
         print("\n", [combinaison.__str__() for combinaison in meilleur_combinaison_liste], "\n")
         print([combinaison.__poker_hand__().__str__() for combinaison in meilleur_combinaison_liste])
         
-        if meilleur_combinaison_liste[0].__poker_hand__() == PH.FOUR_OF_KIND: debug = False
+        if meilleur_combinaison_liste[0].__poker_hand__() == PH.STRAIGHT_FLUSH: debug = False

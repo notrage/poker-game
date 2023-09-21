@@ -201,78 +201,127 @@ class Combination():
     def __value_to_compares__(self) -> list[CardValue]:
 
         self.__sort_by_value__()
-        card_value_list: list[CardValue] = [card.__value__() for card in self.__cards__()]
+        value_list: list[CardValue] = [card.__value__() for card in self.__cards__()]
 
         match (self.__poker_hand__()):
         
-            case PokerHand.HIGH_CARD: return card_value_list[0:5]
+            case PokerHand.HIGH_CARD: return value_list[0:5]
             
             case PokerHand.PAIR: 
                 
                 value_dict: dict = self.__group_by_value__()
                 # Getting the pair CardValue's
-                pair_card_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 2]
+                pair_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 2]
                 # Getting out the pair from CardValue's list                
-                card_value_list = self.__remove_all_occurence__(card_value_list, pair_card_value_list[0])
+                value_list = self.__remove_all_occurence__(value_list, pair_value_list[0])
                 
-                return pair_card_value_list + card_value_list[0:3]
+                return pair_value_list + value_list[0:3]
                 
             case PokerHand.TWO_PAIR: 
                 
                 value_dict: dict = self.__group_by_value__()
                 # Getting the pairs CardValue's
-                pair_card_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 2]
+                pair_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 2]
                 # Getting out the pairs from CardValue's list
-                for pair_card_value in pair_card_value_list:
+                for pair_value in pair_value_list:
                     
-                    card_value_list = self.__remove_all_occurence__(card_value_list, pair_card_value)
+                    value_list = self.__remove_all_occurence__(value_list, pair_value)
                         
-                return pair_card_value_list + [card_value_list[0]]
+                return pair_value_list + [value_list[0]]
                     
             case PokerHand.THREE_OF_KIND: 
                 
                 value_dict: dict = self.__group_by_value__()
                 # Getting the three of kind CardValue's
-                three_of_kind_card_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 3]
+                three_of_kind_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 3]
                 # Getting out the three of kind from CardValue's list
-                card_value_list = self.__remove_all_occurence__(card_value_list, three_of_kind_card_value_list[0])
+                value_list = self.__remove_all_occurence__(value_list, three_of_kind_value_list[0])
                                 
-                return three_of_kind_card_value_list + card_value_list[0:2]
+                return three_of_kind_value_list + value_list[0:2]
                 
             case PokerHand.STRAIGHT:
                 
-                #TODO renvoyer la plus grand cardValue de la straight
-                return 
+                # Check if we are in the first straight case (with ACE as ONE)
+                if all(value in value_list for value in [CardValue.ACE, CardValue.TWO, CardValue.THREE, CardValue.FOUR, CardValue.FIVE]):
+                    return [CardValue.FIVE]
+                
+                values_in_row: int = 0
+                highest_straight_value: CardValue = CardValue.TWO
+                
+                for index, card_value in enumerate(value_list):
+                    
+                    print(f"index:{index}, card_value:{card_value}")
+                    
+                    value_rank: int = card_value.value
+                    previous_value_rank: int = value_list[index-1].value
+                    # It's the start of iteration
+                    if index == 0 : values_in_row, highest_straight_value = 1, card_value
+                    # The value is the same than previous one (doesn't affect straight reaserch)
+                    elif value_rank == previous_value_rank: pass
+                    # The value continue the current straight research
+                    elif value_rank == previous_value_rank - 1: values_in_row += 1
+                    # The value jump at least the previous one by one value (restart the straight research)
+                    else: values_in_row, highest_straight_value = 0, card_value                        
+                    
+                    if values_in_row == 5: return [highest_straight_value] 
             
             case PokerHand.FLUSH: 
-                #TODO renvoyer la plus grand cardValue de la flush
-                return 
+                
+                color_dict: dict = self.__group_by_color__()
+                
+                for card in self.__cards__():
+                    
+                    for color, count in color_dict.items():
+                        
+                        if card.__color__() == color and count == 5: return card.__value__()
             
             case PokerHand.FULL_HOUSE: 
                 
                 value_dict: dict = self.__group_by_value__()
                 # Getting the three of kind CardValue's
-                full_house_card_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 3]
+                full_house_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 3]
                 # Getting the pair CardValue's
-                full_house_card_value_list += [value for value, count in value_dict.items() if count == 2]
+                full_house_value_list += [value for value, count in value_dict.items() if count == 2]
                 
-                return full_house_card_value_list
+                return full_house_value_list
             
             case PokerHand.FOUR_OF_KIND: 
                 
                 value_dict: dict = self.__group_by_value__()
                 # Getting the four of kind CardValue's
-                four_of_kind_card_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 4]
+                four_of_kind_value_list: list[CardValue] = [value for value, count in value_dict.items() if count == 4]
                 # Getting out the four of kind from CardValue's list
-                card_value_list = self.__remove_all_occurence__(card_value_list, four_of_kind_card_value_list[0])
+                value_list = self.__remove_all_occurence__(value_list, four_of_kind_value_list[0])
                 
-                return four_of_kind_card_value_list + [card_value_list[0]]
-                
-            case PokerHand.STRAIGHT_FLUSH: 
-                #TODO renvoyer la plus grand cardValue de la straight flush
-                return
+                return four_of_kind_value_list + [value_list[0]]
             
-            case PokerHand.ROYAL_FLUSH: 
-                #TODO renvoyer la plus grand cardValue de la royal flush
-                return 
+            case PokerHand.STRAIGHT_FLUSH:
+                
+                # Check if we are in one of first straight case (with ACE as ONE)
+                if ( all(card in self.__str__() for card in ["AC", "2C", "3C", "4C", "5C"]) or
+                     all(card in self.__str__() for card in ["AD", "2D", "3D", "4D", "5D"]) or
+                     all(card in self.__str__() for card in ["AH", "2H", "3H", "4H", "5H"]) or
+                     all(card in self.__str__() for card in ["AS", "2S", "3S", "4S", "5S"]) ):
+                     return CardValue.FIVE
+                
+                for index, card in enumerate(self.__cards__()):
+                    
+                    value_rank: int = card.__value__().value
+                    if index: previous_value_rank: int = current_straight_flush[-1].__value__().value
+                    # It's the start of iteration
+                    if index == 0: current_straight_flush: list[Card] = [card]
+                    # The value is the same than previous one (doesn't affect straight reaserch)
+                    elif value_rank == previous_value_rank: pass
+                    # The value continue the current straight research
+                    elif value_rank == previous_value_rank - 1:
+                        # The color continue the current flush research
+                        if card.__color__() == current_straight_flush[-1].__color__(): current_straight_flush.append(card)
+                        # The color isn't the same than previous one (restart the flush research)
+                        else: current_straight_flush = [card]
+                    # The value jump at least the previous one by one value (restart the straight research)
+                    else: current_straight_flush = [card]
+                        
+                    if len(current_straight_flush) == 5: return current_straight_flush[0].__value__()
+            
+            case PokerHand.ROYAL_FLUSH: return [CardValue.ACE]
     
