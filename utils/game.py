@@ -170,28 +170,69 @@ class Game:
             list[Combination]: the current best Game's combination(s)
         """
         
-        current_best_combination_list: list[Combination] = []
-        
-        player_list: list[Player] = self.__players__()
-        combination_list: list[Combination] = [self.__player_combination__(player) for player in player_list]
-
+        best_combination_list: list[Combination] = []
+        print("\n=========================\n\n")
+        combination_list: list[Combination] = [self.__player_combination__(player) for player in self.__players__()]
         for combination in combination_list:
+            print(f"combination tier: {combination.__poker_hand__().__str__()}")
+            print(f"combination cards: {[card.__str__() for card in combination.__cards__()]}\n")
             # It's the start of the iteration
-            if current_best_combination_list == []: current_best_combination_list = [combination]
+            if best_combination_list == []: best_combination_list = [combination]
             else:
-                combination_value: int = combination.__poker_hand__().value
-                current_best_combination_value: int = current_best_combination_list[0].__poker_hand__().value
+                current_combination_value: int = combination.__poker_hand__().value
+                best_combination_value: int = best_combination_list[0].__poker_hand__().value
                 # The combination value is greater than the current combination_list
-                if combination_value > current_best_combination_value: current_best_combination_list = [combination]
+                if current_combination_value > best_combination_value: 
+                    best_combination_list = [combination]
+                    print(f"replacement 1:{[comb.__str__() for comb in best_combination_list]}\n")
                 # The combination value is the same than the current combination_list
-                elif combination_value == current_best_combination_value: current_best_combination_list.append(combination)
-            
+                elif current_combination_value == best_combination_value: 
+                    
+                    best_important_values: list[int] = best_combination_list[0].__value_to_compares__()
+                    print(f"best_important_values:{best_important_values}")
+                    current_important_values: list[int] = combination.__value_to_compares__()
+                    print(f"current_important_values:{current_important_values}\n")
+
+                    for card_index in range(len(best_important_values)):
+                        
+                        print(f"current_important_value:{current_important_values[card_index]}")
+                        print(f"best_important_value:{best_important_values[card_index]}")
+                        
+                        if current_important_values[card_index] > best_important_values[card_index]:
+                            
+                            best_combination_list = [combination]
+                            print(f"replacement2:{[comb.__str__() for comb in best_combination_list]}")
+                            break
+                        
+                        if current_important_values[card_index] == best_important_values[card_index]:
+                            
+                            print(f"same values")
+                        
+                        if current_important_values[card_index] == best_important_values[card_index] and card_index == len(best_important_values) - 1: 
+                            
+                            best_combination_list.append(combination)
+                            print(f"added combination:{[comb.__str__() for comb in best_combination_list]}")
+                            
+                        if current_important_values[card_index] < best_important_values[card_index]:
+                            print("best combination stay the best") 
+                            break
+                        
+        return best_combination_list
         #if len(current_best_combination_list) == 1: return current_best_combination_list
         
         #TODO comparer les mains et sortir la plus élevé (car ici on est dans le cas où c'est la valeur de la main du joueur qui va trancher)
         
-        combination_value_dict: dict = {combination.__str__(): combination.__value_to_compares__() for combination in current_best_combination_list}        
+        """combination_for_properties: Combination = best_combination_list_by_tier[0]
+        card_number_to_compares: int = len(combination_for_properties.__value_to_compares__())
+        
+        combination_value_dict: dict = {combination.__str__(): combination.__value_to_compares__() for combination in best_combination_list_by_tier}          
+        
+        
+        best_combination_list_by_values: list[Combination] =[]"""
+        
+        
+        
         
         #debug
-        print(combination_value_dict)
-        return current_best_combination_list            
+        print(f"\n{combination_value_dict}")
+        return best_combination_list
