@@ -1,6 +1,7 @@
 from enum import Enum
 
-class PokerHand(Enum):
+class PokerHandRank(Enum):
+    """Enumeration representing poker hand ranks."""
     
     HIGH_CARD      = 1
     PAIR           = 2
@@ -15,7 +16,7 @@ class PokerHand(Enum):
     
     def __str__(self) -> str:
         
-        match(self):
+        match self:
             
             case self.HIGH_CARD:      return "HICH CARD"
             case self.PAIR:           return "PAIR"

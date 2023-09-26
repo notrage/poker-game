@@ -1,15 +1,13 @@
-from utils.enumerations.card_value  import CardValue 
-from utils.enumerations.card_color import CardColor
 from utils.enumerations.community_stage import CommunityStage
-from utils.enumerations.poker_hand import PokerHand
-from utils.card import Card
-from utils.card_pack import CardPack
-from utils.community import Community
 from utils.combination import Combination
-from utils.hand import Hand
+from utils.community import Community
+from utils.card_pack import CardPack
 from utils.player import Player
+from utils.card import Card
+from utils.hand import Hand
 
 class Game:
+    """Represent a Poker Game."""
     
     def __init__(self) -> None:
         
@@ -56,35 +54,26 @@ class Game:
         return f"Game's card pack: {card_pack_to_str}\nGame's community cards: {community_to_str}\nGame's community stage: {community_stage_to_str}\nGame's players: {players_to_str}\nGame's player's hands: {hands_to_str}\nGame's player's bets: {bets_to_str}\n"
         
     def init_card_pack(self) -> None:
-        """generate the Game's card_pack
-        """
-        
+        """Generate the Game's card_pack."""
         self.card_pack = CardPack()
         
     def init_community(self) -> None:
-        """generate the Game's community
-        """
-        
+        """Generate the Game's community."""
         assert self.__card_pack__(), "Error, cannot generate the Game's community if the Game's card_pack isn't initialized"
         # Get the cards for the community
-        community_card_list: list[Card] = self.__card_pack__().get_and_remove_random_cards(8)
-        
+        community_card_list: list[Card] = self.__card_pack__().get_and_remove_multiple_random_card(8)
         self.community = Community(community_card_list)
         
     def init_community_stage(self) -> None:
-        """initialize/reset Game's community_stage
-        """
-
+        """Initialize/reset Game's community_stage."""
         self.community_stage = CommunityStage.EMPTY
         
     def update_community_stage(self) -> None:
-        """upgrade the current Game's community_stage
-        """
-        
+        """Upgrade the current Game's community_stage"""
         self.community_stage = self.__community_stage__().next_community_stage()
         
     def add_player(self, a_game_player: Player) -> None:
-        """add a player to the Game
+        """Add a player to the Game.
 
         Args:
             a_game_player (Player): a player to join the Game
@@ -97,22 +86,22 @@ class Game:
             self.players.append(a_game_player)
     
     def generate_hands(self) -> None:
-        """generate randoms hands for all Game's players
-        """
-
+        """generate randoms hands for all Game's players"""
         assert self.__card_pack__(), "Error, cannot generate the Game's hands if the Game's card_pack isn't initialized"
         # Initialize player and hand list
         player_list: list[Player] = self.__players__()
-        hand_list: list[Hand] = [Hand(self.__card_pack__().get_and_remove_random_cards(2)) for i in range (len(player_list))]
+        hand_list: list[Hand] = [Hand(self.__card_pack__().get_and_remove_multiple_random_card(2)) for i in range (len(player_list))]
         
         self.hands = {player: hand for (player, hand) in zip(player_list, hand_list)}
         
     def add_bet(self, bet_player: Player, bet_amount: int) -> None:
-        """initialize bets for a given Game's players
+        """Initialize bets for a given Game's players
+
+        Args:
+            bet_player (Player): bet player
+            bet_amount (int): bet amount
         """
-        
         assert bet_amount <= bet_player.__money__(), "Error, cannot bet a higher value than the player's money"
-        
         # Check if the bets dictionnary is already initialized
         if not self.__bets__():
             self.bets = {player: None for player in self.__players__()}
@@ -120,12 +109,11 @@ class Game:
         self.bets[bet_player] = bet_amount
         
     def round_win(self, player_win_list: list[Player]) -> None:
-        """update players's money amount after a round
+        """Update players's money amount after a round
 
         Args:
             player_win_list (list[Player]): list of winning players
         """
-        
         money_win: int = sum(self.__bets__().values()) / len(player_win_list)
 
         for player in self.__players__():
@@ -146,93 +134,56 @@ class Game:
         self.init_community()
         self.init_community_stage()
 
-    def __player_combination__(self, player: Player) -> Combination:
-        """give Game's player's card combination
+    def player_combination(self, player: Player) -> Combination:
+        """Give Game's player's card combination
 
         Args:
             player (Player): a Game's player
 
         Returns:
-            _type_: Game's player's card combination
+            Combination: Game's player's card combination
         """
-        
         assert self.__hands__(), "Error, cannot get Game's player's combination if hands isn't initialized"
         assert player in self.__players__(), "Error, cannot get a player combination he isn't in the Game"
         # Get current's community cards
+        player_hand_card_list: list[Card] = self.__hands__()[player].__cards__()
         current_community_card_list: list[Card] = self.__community__().get_stage_commnunity_cards(self.__community_stage__())
         
-        return Combination(self.__hands__()[player], self.__community__(), self.__community_stage__())
+        return Combination(player_hand_card_list + current_community_card_list)
 
-    def __best_combination__(self) -> list[Combination]:
-        """Give the current best Game's combination(s) 
-
-        Returns:
-            list[Combination]: the current best Game's combination(s)
-        """
-        
+    def best_combination(self) -> list[Combination]:
+        """Give the current best Game's combination(s)"""        
         best_combination_list: list[Combination] = []
-        print("\n=========================\n\n")
-        combination_list: list[Combination] = [self.__player_combination__(player) for player in self.__players__()]
+        combination_list: list[Combination] = [self.player_combination(player) for player in self.__players__()]
+        
         for combination in combination_list:
-            print(f"combination tier: {combination.__poker_hand__().__str__()}")
-            print(f"combination cards: {[card.__str__() for card in combination.__cards__()]}\n")
-            # It's the start of the iteration
+            #It's the start of the iteration
             if best_combination_list == []: best_combination_list = [combination]
             else:
-                current_combination_value: int = combination.__poker_hand__().value
-                best_combination_value: int = best_combination_list[0].__poker_hand__().value
-                # The combination value is greater than the current combination_list
+                current_combination_value: int = combination.poker_hand_rank().value
+                best_combination_value: int = best_combination_list[0].poker_hand_rank().value
+                #The combination value is greater than the current combination_list
                 if current_combination_value > best_combination_value: 
                     best_combination_list = [combination]
-                    print(f"replacement 1:{[comb.__str__() for comb in best_combination_list]}\n")
-                # The combination value is the same than the current combination_list
+                #The combination value is the same than the current combination_list
                 elif current_combination_value == best_combination_value: 
                     
                     best_important_values: list[int] = best_combination_list[0].__value_to_compares__()
-                    print(f"best_important_values:{best_important_values}")
                     current_important_values: list[int] = combination.__value_to_compares__()
-                    print(f"current_important_values:{current_important_values}\n")
 
                     for card_index in range(len(best_important_values)):
-                        
-                        print(f"current_important_value:{current_important_values[card_index]}")
-                        print(f"best_important_value:{best_important_values[card_index]}")
                         
                         if current_important_values[card_index] > best_important_values[card_index]:
                             
                             best_combination_list = [combination]
-                            print(f"replacement2:{[comb.__str__() for comb in best_combination_list]}")
                             break
-                        
-                        if current_important_values[card_index] == best_important_values[card_index]:
-                            
-                            print(f"same values")
                         
                         if current_important_values[card_index] == best_important_values[card_index] and card_index == len(best_important_values) - 1: 
                             
                             best_combination_list.append(combination)
-                            print(f"added combination:{[comb.__str__() for comb in best_combination_list]}")
                             
                         if current_important_values[card_index] < best_important_values[card_index]:
-                            print("best combination stay the best") 
+                            
                             break
                         
-        return best_combination_list
-        #if len(current_best_combination_list) == 1: return current_best_combination_list
-        
-        #TODO comparer les mains et sortir la plus élevé (car ici on est dans le cas où c'est la valeur de la main du joueur qui va trancher)
-        
-        """combination_for_properties: Combination = best_combination_list_by_tier[0]
-        card_number_to_compares: int = len(combination_for_properties.__value_to_compares__())
-        
-        combination_value_dict: dict = {combination.__str__(): combination.__value_to_compares__() for combination in best_combination_list_by_tier}          
-        
-        
-        best_combination_list_by_values: list[Combination] =[]"""
-        
-        
-        
-        
-        #debug
-        print(f"\n{combination_value_dict}")
         return best_combination_list

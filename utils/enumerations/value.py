@@ -1,6 +1,7 @@
 from enum import Enum
 
-class CardValue(Enum):
+class Value(Enum):
+    """Enumeration representing card values."""
     
     TWO   = 2
     THREE = 3
@@ -18,9 +19,8 @@ class CardValue(Enum):
     
     def __str__(self) -> str:
         
-        match(self):
+        match self:
             
-            #case self.ONE:   return '1'
             case self.TWO:   return '2'
             case self.THREE: return '3'
             case self.FOUR:  return '4'
@@ -36,5 +36,5 @@ class CardValue(Enum):
             case self.ACE:   return 'A'
             
     def __list__() -> list: 
-        
-        return [CardValue.__members__[value.name] for value in CardValue]
+        """Return a list of all card values."""
+        return [Value.__members__[value.name] for value in Value]

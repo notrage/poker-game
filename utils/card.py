@@ -1,18 +1,19 @@
-from utils.enumerations.card_value import CardValue
-from utils.enumerations.card_color import CardColor
+from utils.enumerations.value import Value
+from utils.enumerations.color import Color
 
 class Card:
+    """Represents a playing card."""
     
-    def __init__(self, card_value: CardValue, card_color: CardColor) -> None:
+    def __init__(self, card_value: Value, card_color: Color) -> None:
         
-        self.value: CardValue = card_value
-        self.color: CardColor = card_color
+        self.value: Value = card_value
+        self.color: Color = card_color
         
-    def __value__(self) -> CardValue: 
+    def __value__(self) -> Value: 
         
         return self.value
     
-    def __color__(self) -> CardColor:
+    def __color__(self) -> Color:
         
         return self.color
     
@@ -20,11 +21,7 @@ class Card:
         
         return f"{self.value.__str__()}{self.color.__str__()}"
     
+    @staticmethod
     def card_list_gen() -> list:
-        """return a 52 list of Card
-
-        Returns:
-            list: a combination between every CardValue and CardColor
-        """
-        
-        return [Card(card_value=v, card_color=c) for v in CardValue.__list__() for c in CardColor.__list__()]
+        """Return a list of 52 cards, a combination of every Value and Color."""        
+        return [Card(v, c) for v in Value.__list__() for c in Color.__list__()]

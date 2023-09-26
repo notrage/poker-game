@@ -1,4 +1,5 @@
 class Player:
+    """Represent a poker player."""
     
     def __init__(self, player_name: str, player_money: int) -> None:
         
@@ -23,7 +24,6 @@ class Player:
         Args:
             amount (int): money to add
         """
-        
         self.money += amount
         
     def sub_money(self, amount: int) -> None:
@@ -32,5 +32,4 @@ class Player:
         Args:
             amount (int): money to substract
         """
-        
         self.money -= amount
