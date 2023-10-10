@@ -1,7 +1,7 @@
 from utils.card import Card
 
 class Hand():
-    """Represent a Player's hand"""
+    """Represent a Player's hand."""
     
     def __init__(self, hand_cards: list[Card]) -> None:
         
