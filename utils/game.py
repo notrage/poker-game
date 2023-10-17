@@ -168,8 +168,8 @@ class Game:
                 #The combination value is the same than the current combination_list
                 elif current_combination_value == best_combination_value: 
                     
-                    best_important_values: list[int] = best_combination_list[0].__value_to_compares__()
-                    current_important_values: list[int] = combination.__value_to_compares__()
+                    best_important_values: list[int] = best_combination_list[0].value_to_compares()
+                    current_important_values: list[int] = combination.value_to_compares()
 
                     for card_index in range(len(best_important_values)):
                         

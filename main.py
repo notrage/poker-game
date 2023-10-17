@@ -1,3 +1,4 @@
+from sys import argv
 from utils.game import Game
 from utils.player import Player
 
@@ -11,6 +12,8 @@ from utils.enumerations.poker_hand_rank import PokerHandRank as PH
 if __name__ == "__main__":
     
     partie = Game()
+    
+    print(argv)
     
     partie.init_card_pack()
     partie.init_community()

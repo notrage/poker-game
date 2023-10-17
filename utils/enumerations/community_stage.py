@@ -17,7 +17,7 @@ class CommunityStage(Enum):
             case self.TURN:  return "TURN"
             case self.RIVER: return "RIVER"
     
-    def next_community_stage(self):
+    def next_community_stage(self) -> "CommunityStage":
         
         assert self != self.RIVER, "Error, there is no community stage after the RIVER's one"
         
