@@ -11,9 +11,11 @@ from utils.enumerations.poker_hand_rank import PokerHandRank as PH
 
 if __name__ == "__main__":
     
+    if (len(argv) > 2):
+        print("Too many arguments.")
+        exit()
+
     partie = Game()
-    
-    print(argv)
     
     partie.init_card_pack()
     partie.init_community()
