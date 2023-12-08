@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+import argparse, logging
 from sys import argv
 from utils.game import Game
 from utils.player import Player
@@ -12,8 +15,18 @@ from utils.enumerations.poker_hand_rank import PokerHandRank as PH
 if __name__ == "__main__":
     
     if (len(argv) > 2):
-        print("Too many arguments.")
+        print("usage: main.py [-h] [-d]")
         exit()
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--debug", help="activate debug mode", action="store_true")
+    args = parser.parse_args()
+
+    if args.debug:
+        logging.basicConfig(level=logging.DEBUG)
+        logging.debug("Debug mode is on")
+    else:
+        logging.basicConfig(level=logging.INFO)
 
     partie = Game()
     

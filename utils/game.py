@@ -1,3 +1,4 @@
+import logging
 from utils.enumerations.community_stage import CommunityStage
 from utils.combination import Combination
 from utils.community import Community
@@ -9,40 +10,43 @@ from utils.hand import Hand
 class Game:
     """Represent a Poker Game."""
     
-    def __init__(self) -> None:
-        
+    def __init__(self, debug = False) -> None:
+        """Initialize a Game."""
         self.card_pack: CardPack             = None
         self.community: Community            = None
         self.community_stage: CommunityStage = None
         self.players: list[Player]           = None
         self.hands: dict                     = None
         self.bets: dict                      = None
+
+        logging.debug("Game initialized")
         
     def __card_pack__(self) -> CardPack:
-        
+        """Getter for Game's card_pack attribute."""
         return self.card_pack
     
     def __community__(self) -> Community:
-        
+        """Getter for Game's community attribute."""
         return self.community
     
     def __community_stage__(self) -> CommunityStage:
-        
+        """Getter for Game's community_stage attribute."""
         return self.community_stage
     
     def __players__(self) -> list[Player]:
-        
+        """Getter for Game's players attribute."""
         return self.players
     
     def __hands__(self) -> dict:
-        
+        """Getter for Game's hands attribute."""
         return self.hands
     
     def __bets__(self) -> dict:
-        
+        """Getter for Game's bets attribute."""
         return self.bets
     
     def __str__(self) -> str:
+        """Return a string representation of the Game."""
         # Put the right format for every Game's attribute
         card_pack_to_str: list[str] = self.__card_pack__().__str__() if self.__card_pack__() else None
         community_to_str: str       = self.__community__().__str__() if self.__community__() else None
@@ -55,14 +59,18 @@ class Game:
         
     def init_card_pack(self) -> None:
         """Generate the Game's card_pack."""
+
         self.card_pack = CardPack()
+        logging.debug("Game's card pack initialized")
         
     def init_community(self) -> None:
         """Generate the Game's community."""
+
         assert self.__card_pack__(), "Error, cannot generate the Game's community if the Game's card_pack isn't initialized"
         # Get the cards for the community
         community_card_list: list[Card] = self.__card_pack__().get_and_remove_multiple_random_card(8)
         self.community = Community(community_card_list)
+        logging.debug("Game's community initialized")
         
     def init_community_stage(self) -> None:
         """Initialize/reset Game's community_stage."""
