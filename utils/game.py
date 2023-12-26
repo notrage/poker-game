@@ -75,10 +75,12 @@ class Game:
     def init_community_stage(self) -> None:
         """Initialize/reset Game's community_stage."""
         self.community_stage = CommunityStage.EMPTY
+        logging.debug("Game's community stage initialized")
         
     def update_community_stage(self) -> None:
         """Upgrade the current Game's community_stage"""
         self.community_stage = self.__community_stage__().next_community_stage()
+        logging.debug("Game's community stage updated")
         
     def add_player(self, a_game_player: Player) -> None:
         """Add a player to the Game.
@@ -92,6 +94,7 @@ class Game:
         else:
             assert len(self.__players__()) < 10, "Error: cannot have more than 10 players in a Game"
             self.players.append(a_game_player)
+        logging.debug(f"Player {a_game_player.__name__()} added to the Game")
     
     def generate_hands(self) -> None:
         """generate randoms hands for all Game's players"""
@@ -101,6 +104,7 @@ class Game:
         hand_list: list[Hand] = [Hand(self.__card_pack__().get_and_remove_multiple_random_card(2)) for i in range (len(player_list))]
         
         self.hands = {player: hand for (player, hand) in zip(player_list, hand_list)}
+        logging.debug("Game's hands initialized")
         
     def add_bet(self, bet_player: Player, bet_amount: int) -> None:
         """Initialize bets for a given Game's players
@@ -115,6 +119,7 @@ class Game:
             self.bets = {player: None for player in self.__players__()}
             
         self.bets[bet_player] = bet_amount
+        logging.debug(f"Player {bet_player.__name__()} bets {bet_amount}")
         
     def round_win(self, player_win_list: list[Player]) -> None:
         """Update players's money amount after a round
@@ -135,6 +140,8 @@ class Game:
         for player in player_win_list:
             
             player.add_money(money_win)
+        
+        logging.debug(f"Game's round finished, {[player.__name__() for player in player_win_list]} won {money_win}")
         
         self.hands = None
         self.bets = None
@@ -160,7 +167,11 @@ class Game:
         return Combination(player_hand_card_list + current_community_card_list)
 
     def best_combination(self) -> list[Combination]:
-        """Give the current best Game's combination(s)"""        
+        """Give the current best Game's combination(s)
+        
+        Returns: 
+            list[Combination]: Game's best combination(s)
+        """        
         best_combination_list: list[Combination] = []
         combination_list: list[Combination] = [self.player_combination(player) for player in self.__players__()]
         
