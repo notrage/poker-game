@@ -15,18 +15,20 @@ from utils.enumerations.poker_hand_rank import PokerHandRank as PH
 if __name__ == "__main__":
     
     if (len(argv) > 2):
-        print("usage: main.py [-h] [-d]")
+        print("usage: main.py [-h] [-d]/[-i]")
         exit()
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--debug", help="activate debug mode", action="store_true")
+    parser.add_argument("-i", "--info", help="activate info mode", action="store_true")
     args = parser.parse_args()
 
     if args.debug:
         logging.basicConfig(level=logging.DEBUG)
         logging.debug("Debug mode is on")
-    else:
+    if args.info:
         logging.basicConfig(level=logging.INFO)
+        logging.info("Info mode is on")
 
     partie = Game()
     

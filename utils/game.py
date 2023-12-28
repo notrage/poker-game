@@ -10,7 +10,7 @@ from utils.hand import Hand
 class Game:
     """Represent a Poker Game."""
     
-    def __init__(self, debug = False) -> None:
+    def __init__(self) -> None:
         """Initialize a Game."""
         self.card_pack: CardPack             = None
         self.community: Community            = None
@@ -19,7 +19,7 @@ class Game:
         self.hands: dict                     = None
         self.bets: dict                      = None
 
-        logging.debug("Game initialized")
+        logging.info("Game initialized")
         
     def __card_pack__(self) -> CardPack:
         """Getter for Game's card_pack attribute."""
@@ -61,7 +61,7 @@ class Game:
         """Generate the Game's card_pack."""
 
         self.card_pack = CardPack()
-        logging.debug("Game's card pack initialized")
+        logging.info("Game's card pack initialized")
         
     def init_community(self) -> None:
         """Generate the Game's community."""
@@ -70,17 +70,17 @@ class Game:
         # Get the cards for the community
         community_card_list: list[Card] = self.__card_pack__().get_and_remove_multiple_random_card(8)
         self.community = Community(community_card_list)
-        logging.debug("Game's community initialized")
+        logging.info("Game's community initialized")
         
     def init_community_stage(self) -> None:
         """Initialize/reset Game's community_stage."""
         self.community_stage = CommunityStage.EMPTY
-        logging.debug("Game's community stage initialized")
+        logging.info("Game's community stage initialized")
         
     def update_community_stage(self) -> None:
         """Upgrade the current Game's community_stage"""
         self.community_stage = self.__community_stage__().next_community_stage()
-        logging.debug("Game's community stage updated")
+        logging.info("Game's community stage updated")
         
     def add_player(self, a_game_player: Player) -> None:
         """Add a player to the Game.
@@ -94,7 +94,8 @@ class Game:
         else:
             assert len(self.__players__()) < 10, "Error: cannot have more than 10 players in a Game"
             self.players.append(a_game_player)
-        logging.debug(f"Player {a_game_player.__name__()} added to the Game")
+
+        logging.info(f"Player {a_game_player.__name__()} added to the Game")
     
     def generate_hands(self) -> None:
         """generate randoms hands for all Game's players"""
@@ -104,7 +105,7 @@ class Game:
         hand_list: list[Hand] = [Hand(self.__card_pack__().get_and_remove_multiple_random_card(2)) for i in range (len(player_list))]
         
         self.hands = {player: hand for (player, hand) in zip(player_list, hand_list)}
-        logging.debug("Game's hands initialized")
+        logging.info("Game's hands initialized")
         
     def add_bet(self, bet_player: Player, bet_amount: int) -> None:
         """Initialize bets for a given Game's players
@@ -119,7 +120,7 @@ class Game:
             self.bets = {player: None for player in self.__players__()}
             
         self.bets[bet_player] = bet_amount
-        logging.debug(f"Player {bet_player.__name__()} bets {bet_amount}")
+        logging.info(f"Player {bet_player.__name__()} bets {bet_amount}")
         
     def round_win(self, player_win_list: list[Player]) -> None:
         """Update players's money amount after a round
@@ -131,7 +132,7 @@ class Game:
 
         for player in self.__players__():
             
-            player.sub_money(self.__bets__()[player])
+            player.update_money(-self.__bets__()[player])
             if player.__money__() <= 0:
                 
                 print(f"The player {player.__name__()} is out, his amount of money has decreased to 0")
@@ -139,9 +140,9 @@ class Game:
             
         for player in player_win_list:
             
-            player.add_money(money_win)
+            player.update_money(money_win)
         
-        logging.debug(f"Game's round finished, {[player.__name__() for player in player_win_list]} won {money_win}")
+        logging.info(f"Game's round finished, {[player.__name__() for player in player_win_list]} won {money_win}")
         
         self.hands = None
         self.bets = None
@@ -173,9 +174,13 @@ class Game:
             list[Combination]: Game's best combination(s)
         """        
         best_combination_list: list[Combination] = []
-        combination_list: list[Combination] = [self.player_combination(player) for player in self.__players__()]
+        combination_dict : dict = {self.player_combination(player): player for player in self.__players__()}
         
-        for combination in combination_list:
+        logging.debug([player.__name__() for player in combination_dict.values()])
+        logging.debug([combination.__str__() for combination in combination_dict.keys()])
+        logging.debug([(player.__name__(), combination.__str__()) for (player, combination) in combination_dict.items()])
+        
+        for combination in combination_dict.keys():
             #It's the start of the iteration
             if best_combination_list == []: best_combination_list = [combination]
             else:

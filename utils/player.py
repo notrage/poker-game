@@ -20,18 +20,11 @@ class Player:
         
         return f"Player's name: {self.__name__()}\Player's money: {self.__money__()}\n"
     
-    def add_money(self, amount: int) -> None:
-        """add an amount of money to player's current money
+    def update_money(self, amount: int) -> None:
+        """Update player's money
 
         Args:
             amount (int): money to add
         """
         self.money += amount
-        
-    def sub_money(self, amount: int) -> None:
-        """substract an amount of money to player's current money
-
-        Args:
-            amount (int): money to substract
-        """
-        self.money -= amount
+        logging.info(f"Player's money updated by {amount}")
