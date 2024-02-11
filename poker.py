@@ -10,7 +10,7 @@ from utils.combination import Combination
 from utils.card import Card as C
 from utils.enumerations.color import Color as CC
 from utils.enumerations.value import Value as CV
-from utils.enumerations.poker_hand_rank import PokerHandRank as PH
+from utils.enumerations.poker_hand_rank import PokerHandRank as PHR
 
 if __name__ == "__main__":
     

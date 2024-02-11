@@ -172,20 +172,29 @@ class Game:
         
         Returns: 
             list[Combination]: Game's best combination(s)
-        """        
+        """
         best_combination_list: list[Combination] = []
         combination_dict : dict = {self.player_combination(player): player for player in self.__players__()}
         
-        logging.debug([player.__name__() for player in combination_dict.values()])
-        logging.debug([combination.__str__() for combination in combination_dict.keys()])
-        logging.debug([(player.__name__(), combination.__str__()) for (player, combination) in combination_dict.items()])
-        
+        logging.debug("")
+        logging.debug(f"Starting to search the best combination with:")
+        for combination, player in combination_dict.items():
+            logging.debug(f"\t{player.__name__()} : {combination.__str__()}")
+        logging.debug("")
+
         for combination in combination_dict.keys():
-            #It's the start of the iteration
-            if best_combination_list == []: best_combination_list = [combination]
+            
+            if best_combination_list == []:
+                #It's the start of the iteration
+                best_combination_list = [combination]
+                logging.debug(f"Start of algorithm, best_combination_list = {combination.__str__()}")
             else:
+                #It's not the start of the iteration
                 current_combination_value: int = combination.poker_hand_rank().value
                 best_combination_value: int = best_combination_list[0].poker_hand_rank().value
+                logging.debug(f"Getting the poker hands's values")
+                logging.debug(f"\tcurrent_value = {current_combination_value.__str__()}")
+                logging.debug(f"\tbest_value = {best_combination_value.__str__()}")
                 #The combination value is greater than the current combination_list
                 if current_combination_value > best_combination_value: 
                     best_combination_list = [combination]
