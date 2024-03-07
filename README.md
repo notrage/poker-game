@@ -6,7 +6,7 @@
 Poker is a command-line application written in Python 3.10.6, designed to interact with a poker game. At the moment it is only a client side application, but the goal is to make it a server side application as well at term.
 
 ## Table of Contents
-- [Typing Instructor](#poker)
+- [Poker](#poker)
   - [Description](#description)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
