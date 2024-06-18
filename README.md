@@ -1,5 +1,7 @@
 # Poker Game
 ## Description
+> IMPORTANT : this is a work in progress and very not ready at all
+
 Poker is a command-line application written in Python 3.10.6, designed to interact with a poker game. At the moment you can only generate a fully random application and see which generated hand is the best (only the best hand calculator is available)
 
 This project aims to be a playable game, with the possibility to play versus AIs with a server side API.
