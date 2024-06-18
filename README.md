@@ -1,26 +1,13 @@
-# Poker
+# Poker Game
 ## Description
-> IMPORTANT : this is a work in progress and very not ready at all
+Poker is a command-line application written in Python 3.10.6, designed to interact with a poker game. At the moment you can only generate a fully random application and see which generated hand is the best (only the best hand calculator is available)
 
-
-Poker is a command-line application written in Python 3.10.6, designed to interact with a poker game. At the moment it is only a client side application, but the goal is to make it a server side application as well at term.
-
-## Table of Contents
-- [Poker](#poker)
-  - [Description](#description)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Features](#features)
-
+This project aims to be a playable game, with the possibility to play versus AIs with a server side API.
 ## Installation
-To install the project, you need to have Python 3.10.6 installed on your machine. You can download it from the [official website](https://www.python.org/downloads/). And then clone the repository to your local machine.
-
-## Usage
+- First of all you need to clone this git repository : `git clone git@github.com:notrage/poker-game.git`
+- Then you can run the poker-game using : `python3 poker_game.py`
+## Usage
 At the current stage, you need to put dirrectly the **game.py** functions in **main.py** to make you own game, there is praticaly all the necessary functions to make a game, but you can add more if you want.
-
-Run `python main.py` (if you only have one python version) and `python3 main.my` if not
-
 ## Features
 - Create a poker game
 - Add players to the game
