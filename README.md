@@ -20,8 +20,7 @@ or
 python poker_game.py
 ```
 If you only have one Python version on your machine.
-
-## Usage
+## Usage
 At the current stage, you need to put dirrectly the **game.py** functions in **poker_game.py** to make you own game, there is praticaly all the necessary functions to make a game, but you can add more if you want.
 ## Features
 - Create a poker game
