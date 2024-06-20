@@ -11,7 +11,7 @@ To run the Crop Farmer on your local machine, make sure you have Python 3.10.6 o
 ```bash
 git clone git@github.com:notrage/poker-game.git
 ```
-2. Run the **Poker Game** :
+2. Run the Poker Game :
 ```bash
 python3 poker_game.py
 ```
