@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import argparse, logging
+import argparse
+import logging
 from sys import argv
 from utils.game import Game
 from utils.player import Player
@@ -17,7 +18,7 @@ if __name__ == "__main__":
     if (len(argv) > 2):
         print("usage: main.py [-h] [-d]/[-i]")
         exit()
-
+    
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--debug", help="activate debug mode", action="store_true")
     parser.add_argument("-i", "--info", help="activate info mode", action="store_true")
@@ -31,27 +32,27 @@ if __name__ == "__main__":
         logging.info("Info mode is on")
 
     partie = Game()
-    
+
     partie.init_card_pack()
     partie.init_community()
     partie.init_community_stage()
-    
+
     joueur1 = Player("roger", 10000)
     joueur2 = Player("jacques", 7000)
     joueur3 = Player("michel", 9000)
     joueur4 = Player("jose", 9000)
     joueur5 = Player("patrick", 9000)
     joueur6 = Player("anabelle", 9000)
-    
+
     partie.add_player(joueur1)
     partie.add_player(joueur2)
     partie.add_player(joueur3)
     partie.add_player(joueur4)
     partie.add_player(joueur5)
     partie.add_player(joueur6)
-    
+
     partie.generate_hands()
-    
+ 
     partie.add_bet(joueur1, 800)
     partie.add_bet(joueur2, 500)
     partie.add_bet(joueur3, 900)
